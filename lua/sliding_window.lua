@@ -1,7 +1,7 @@
 local key = KEYS[1]
 
 local start = tonumber(ARGV[1])
-local threshold = ARGV[2]
+local threshold = tonumber(ARGV[2])
 local now = tonumber(ARGV[3])
 local window = tonumber(ARGV[4])
 
