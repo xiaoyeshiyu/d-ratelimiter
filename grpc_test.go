@@ -13,7 +13,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-type Resp struct {
+type GrpcResp struct {
 }
 
 func TestRateLimiter_BuildServerInterceptor(t *testing.T) {
@@ -26,19 +26,19 @@ func TestRateLimiter_BuildServerInterceptor(t *testing.T) {
 	var count uint64
 	handler := func(ctx context.Context, req any) (resp any, err error) {
 		count++
-		return &Resp{}, nil
+		return &GrpcResp{}, nil
 	}
 
 	// 请求第一次
 	resp, err := interceptor(context.Background(), nil, &grpc.UnaryServerInfo{}, handler)
 	require.NoError(t, err)
-	assert.Equal(t, &Resp{}, resp)
+	assert.Equal(t, &GrpcResp{}, resp)
 	assert.Equal(t, uint64(1), count)
 
 	// 请求第二次
 	resp, err = interceptor(context.Background(), nil, &grpc.UnaryServerInfo{}, handler)
 	require.NoError(t, err)
-	assert.Equal(t, &Resp{}, resp)
+	assert.Equal(t, &GrpcResp{}, resp)
 	assert.Equal(t, uint64(2), count)
 
 	// 请求第三次，被限流
@@ -51,6 +51,6 @@ func TestRateLimiter_BuildServerInterceptor(t *testing.T) {
 	time.Sleep(time.Second * 5)
 	resp, err = interceptor(context.Background(), nil, &grpc.UnaryServerInfo{}, handler)
 	require.NoError(t, err)
-	assert.Equal(t, &Resp{}, resp)
+	assert.Equal(t, &GrpcResp{}, resp)
 	assert.Equal(t, uint64(3), count)
 }
