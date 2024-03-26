@@ -33,6 +33,6 @@ func (r *RateLimiter) allow(ctx context.Context, key string) (bool, error) {
 	}
 
 	return r.client.Eval(ctx, luaRateLimiterWindows, []string{key},
-		time.Now().Add(-r.duration).UnixMicro(), r.rate, time.Now().UnixMicro(), r.duration.Seconds()).
+		time.Now().Add(-r.duration).UnixMicro(), r.rate, time.Now().UnixMicro(), r.duration.Milliseconds()).
 		Bool()
 }

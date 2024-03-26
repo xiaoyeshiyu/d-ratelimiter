@@ -35,7 +35,8 @@ func TestRateLimiter_BuildServerInterceptor(t *testing.T) {
 	assert.Equal(t, &GrpcResp{}, resp)
 	assert.Equal(t, uint64(1), count)
 
-	// 请求第二次
+	// 间隔请求第二次
+	time.Sleep(time.Second * 3)
 	resp, err = interceptor(context.Background(), nil, &grpc.UnaryServerInfo{}, handler)
 	require.NoError(t, err)
 	assert.Equal(t, &GrpcResp{}, resp)
@@ -48,7 +49,7 @@ func TestRateLimiter_BuildServerInterceptor(t *testing.T) {
 	assert.Equal(t, uint64(2), count)
 
 	// 休眠 5s 避免一个周期
-	time.Sleep(time.Second * 5)
+	time.Sleep(time.Second * 2)
 	resp, err = interceptor(context.Background(), nil, &grpc.UnaryServerInfo{}, handler)
 	require.NoError(t, err)
 	assert.Equal(t, &GrpcResp{}, resp)

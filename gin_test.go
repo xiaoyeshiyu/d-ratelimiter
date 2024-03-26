@@ -34,7 +34,8 @@ func TestRateLimiter_BuildServerMiddleware(t *testing.T) {
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, uint64(1), count)
 
-	// 请求第二次
+	// 间隔请求第二次
+	time.Sleep(time.Second * 3)
 	w = PerformRequest(router, "GET", "/")
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, uint64(2), count)
@@ -44,8 +45,8 @@ func TestRateLimiter_BuildServerMiddleware(t *testing.T) {
 	assert.Equal(t, http.StatusTooManyRequests, w.Code)
 	assert.Equal(t, uint64(2), count)
 
-	// 休眠 5s 避免一个周期
-	time.Sleep(time.Second * 5)
+	// 间隔 5s 避免一个周期
+	time.Sleep(time.Second * 2)
 	w = PerformRequest(router, "GET", "/")
 	assert.Equal(t, http.StatusOK, w.Code)
 	assert.Equal(t, uint64(3), count)
