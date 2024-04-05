@@ -1,6 +1,6 @@
 //go:build e2e
 
-package d_ratelimiter
+package rate_limiter
 
 import (
 	"context"

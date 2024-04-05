@@ -1,4 +1,4 @@
-package d_ratelimiter
+package rate_limiter
 
 import "github.com/pkg/errors"
 
